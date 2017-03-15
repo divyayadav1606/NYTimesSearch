@@ -1,4 +1,4 @@
-package com.dyadav.nytimessearch.utility.utility;
+package com.dyadav.nytimessearch.utility;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

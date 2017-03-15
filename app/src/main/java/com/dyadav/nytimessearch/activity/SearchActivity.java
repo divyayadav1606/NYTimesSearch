@@ -1,7 +1,10 @@
 package com.dyadav.nytimessearch.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -10,12 +13,14 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.dyadav.nytimessearch.R;
 import com.dyadav.nytimessearch.adapter.ArticlesAdapter;
 import com.dyadav.nytimessearch.modal.Article;
 import com.dyadav.nytimessearch.modal.ResponseWrapper;
 import com.dyadav.nytimessearch.rest.nyTimesAPI;
+import com.dyadav.nytimessearch.utility.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +30,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.dyadav.nytimessearch.R.id.rView;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -41,11 +48,26 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        mView = (RecyclerView) findViewById(R.id.rView);
+        mView = (RecyclerView) findViewById(rView);
         mAdapter = new ArticlesAdapter(this, articleList);
         mLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         //mLayoutManager.setGapStrategy();
         mView.setLayoutManager(mLayoutManager);
+
+        ItemClickSupport.addTo(mView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                //Launch Custom Chrome Tab
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+
+                //TODO:Set Toolbar and custom actions
+                builder.setToolbarColor(ContextCompat.getColor(SearchActivity.this, R.color.colorPrimary));
+                builder.addDefaultShareMenuItem();
+
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(SearchActivity.this, Uri.parse(articleList.get(position).getWebUrl()));
+            }
+        });
 
         mView.setAdapter(mAdapter);
         fetchArticles("");
