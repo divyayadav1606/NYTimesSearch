@@ -10,7 +10,7 @@ public class Multimedia {
     private String url;
 
     public String getUrl() {
-        return url;
+        return "http://www.nytimes.com/" + url;
     }
 
     public void setUrl(String url) {
