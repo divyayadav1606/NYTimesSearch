@@ -9,11 +9,23 @@ public class Multimedia {
     @Expose
     private String url;
 
+    @SerializedName("width")
+    @Expose
+    private String width;
+
     public String getUrl() {
         return "http://www.nytimes.com/" + url;
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width;
     }
 }

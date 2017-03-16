@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NYTimesSearch</string>
+    <string name="toolbar_title">The New York Times</string>
 </resources>

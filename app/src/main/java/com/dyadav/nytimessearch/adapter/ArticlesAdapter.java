@@ -60,9 +60,12 @@ public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 case ARTICLE_WITH_IMAGE:
                     ArticleWithImageViewHolder vh1 = (ArticleWithImageViewHolder) holder;
                     vh1.getHeadline().setText(article.getHeadline().getMain());
-                    Glide.with(context)
-                            .load(article.getMultimedia().get(0).getUrl())
-                            .into(vh1.getImage());
+                    //find largest image
+                    for (int i =0; i < article.getMultimedia().size(); i++)
+                        if(article.getMultimedia().get(i).getWidth().equals("600"))
+                            Glide.with(context)
+                                .load(article.getMultimedia().get(i).getUrl())
+                                .into(vh1.getImage());
                     break;
                 case ARTICLE_NO_IMAGE:
                 default: {

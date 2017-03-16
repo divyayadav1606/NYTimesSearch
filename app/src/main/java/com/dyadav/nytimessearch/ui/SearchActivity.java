@@ -1,5 +1,9 @@
-package com.dyadav.nytimessearch.activity;
+package com.dyadav.nytimessearch.ui;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -10,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +25,7 @@ import com.dyadav.nytimessearch.adapter.ArticlesAdapter;
 import com.dyadav.nytimessearch.modal.Article;
 import com.dyadav.nytimessearch.modal.ResponseWrapper;
 import com.dyadav.nytimessearch.rest.nyTimesAPI;
+import com.dyadav.nytimessearch.utility.EndlessRecyclerViewScrollListener;
 import com.dyadav.nytimessearch.utility.ItemClickSupport;
 
 import java.util.ArrayList;
@@ -38,7 +44,8 @@ public class SearchActivity extends AppCompatActivity {
     List<Article> articleList = new ArrayList<>();
     RecyclerView mView;
     ArticlesAdapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
+    StaggeredGridLayoutManager mLayoutManager;
+    EndlessRecyclerViewScrollListener scrollListener;
 
     static final String BASE_URL = "https://api.nytimes.com/";
     private final static String API_KEY = "d305d9a469b6430b8d80b7d577c7a183";
@@ -48,33 +55,59 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.toolbar_title);
+        setSupportActionBar(toolbar);
+
         mView = (RecyclerView) findViewById(rView);
         mAdapter = new ArticlesAdapter(this, articleList);
-        mLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        //mLayoutManager.setGapStrategy();
+        mView.setAdapter(mAdapter);
+
+        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mView.setLayoutManager(mLayoutManager);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                fetchArticles("warriors", page);
+            }
+        };
+
+        mView.addOnScrollListener(scrollListener);
 
         ItemClickSupport.addTo(mView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                //Launch Custom Chrome Tab
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.share);
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, articleList.get(position).getWebUrl());
+
+                int requestCode = 100;
+
+                PendingIntent pendingIntent = PendingIntent.getActivity(SearchActivity.this,
+                        requestCode,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-
-                //TODO:Set Toolbar and custom actions
                 builder.setToolbarColor(ContextCompat.getColor(SearchActivity.this, R.color.colorPrimary));
-                builder.addDefaultShareMenuItem();
-
+                builder.setActionButton(bitmap, "Share Link", pendingIntent, true);
                 CustomTabsIntent customTabsIntent = builder.build();
                 customTabsIntent.launchUrl(SearchActivity.this, Uri.parse(articleList.get(position).getWebUrl()));
             }
         });
 
-        mView.setAdapter(mAdapter);
-        fetchArticles("");
+        fetchArticles("warriors", 0);
     }
 
-    private void fetchArticles(String query) {
+    private void fetchArticles(String query, int pNum) {
         Call<ResponseWrapper> call;
+        //Pick up these values from Shared prefrences
+        String beginDate = "20160316";
+        String categories = "news_desk:(\"Sports\")";
+        String sortOrder = "oldest";
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -83,16 +116,12 @@ public class SearchActivity extends AppCompatActivity {
 
         nyTimesAPI apiCall = retrofit.create(nyTimesAPI.class);
 
-        if (query.isEmpty()) {
-            call = apiCall.loadArticles(API_KEY);
-        } else {
-            call = apiCall.loadArticlesWithQuery(API_KEY, query);
-        }
+        call = apiCall.loadArticles(API_KEY, query, String.valueOf(pNum), sortOrder, beginDate, categories);
 
         call.enqueue(new Callback<ResponseWrapper>() {
             @Override
             public void onResponse(Call<ResponseWrapper> call, Response<ResponseWrapper> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     List<Article> rlist = response.body().getResponse().getArticles();
                     articleList.clear();
                     articleList.addAll(rlist);
@@ -112,6 +141,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
+
         inflater.inflate(R.menu.menu, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -119,7 +149,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchView.clearFocus();
-                fetchArticles(query);
+                scrollListener.resetState();
+                fetchArticles(query, 1);
                 return true;
             }
 
@@ -129,5 +160,18 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                FilterDialog fDialog = new FilterDialog();
+                fDialog.show(getSupportFragmentManager(),"");
+
+            case R.id.action_search:
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

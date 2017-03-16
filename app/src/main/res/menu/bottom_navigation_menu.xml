@@ -7,12 +7,7 @@
         android:icon="@drawable/news"
         android:title="News"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_schedules"
-        android:enabled="true"
-        android:icon="@drawable/settings"
-        android:title="Settings"
-        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_music"
         android:enabled="true"
