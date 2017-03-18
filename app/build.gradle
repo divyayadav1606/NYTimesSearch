@@ -37,5 +37,6 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.0'
     compile 'com.android.support:design:25.3.0'
     compile 'com.android.support:customtabs:25.3.0'
+    classpath 'me.tatarka:gradle-retrolambda:3.5.0'
     testCompile 'junit:junit:4.12'
 }

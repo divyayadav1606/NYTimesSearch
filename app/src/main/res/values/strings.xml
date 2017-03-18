@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">NYTimesSearch</string>
     <string name="toolbar_title">The New York Times</string>
+    <string name="share_link">Share Link</string>
+    <string name="response_unsuccessful">Response Unsuccessful</string>
+    <string name="error_fetching_articles">Error fetching article list</string>
+    <string name="connect_error">Please check your internet connection.</string>
 
     <string-array name="sort_order">
         <item>Oldest</item>
