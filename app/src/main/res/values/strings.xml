@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">NYTimesSearch</string>
     <string name="toolbar_title">The New York Times</string>
+
+    <string-array name="sort_order">
+        <item>Oldest</item>
+        <item>Newest</item>
+    </string-array>
 </resources>

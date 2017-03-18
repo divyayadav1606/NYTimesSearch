@@ -1,93 +1,160 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="Begin Date"
-        android:textColor="@color/colorPrimary"
-        android:id="@+id/textView2"
-        android:textSize="18sp"/>
+    <data>
+        <variable name="abc" type="com.dyadav.nytimessearch.ui.FilterDialog" />
+    </data>
 
-    <EditText
-        android:id="@+id/start_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="Sort Order"
-        android:textColor="@color/colorPrimary"
-        android:id="@+id/textView5"
-        android:layout_below="@+id/start_date"
-        android:textSize="18sp"/>
-
-    <Spinner
-        android:id="@+id/sort_order"
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView5"
-        android:layout_marginTop="15dp" />
+        android:layout_gravity="center">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sort_order"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="News Desk Values"
-        android:textColor="@color/colorPrimary"
-        android:id="@+id/textView7"
-        android:textSize="18sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="Begin Date"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/textdate"
+            android:textSize="18sp"/>
 
-    <CheckBox
-        android:id="@+id/checkBox1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView7"
-        android:layout_marginTop="11dp"
-        android:text="Arts"
-        android:layout_centerHorizontal="true"/>
+        <EditText
+            android:id="@+id/start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textdate"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
 
-    <CheckBox
-        android:id="@+id/checkBox2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="Fashion and Style" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="Sort Order"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/textorder"
+            android:layout_below="@+id/start_date"
+            android:textSize="18sp"/>
 
-    <CheckBox
-        android:id="@+id/checkBox3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sports"
-        android:layout_below="@+id/checkBox2"
-        android:layout_marginTop="5dp"
-        android:layout_centerHorizontal="true" />
+        <Spinner
+            android:id="@+id/sort_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/textorder"
+            android:layout_marginTop="15dp"
+            android:entries="@array/sort_order" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/checkBox3"
-        android:layout_marginTop="20dp"
-        android:text="Save"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/white"/>
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sort_order"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="News Desk Values"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/textcategory"
+            android:textSize="18sp"/>
+
+        <LinearLayout
+            android:id="@+id/lLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textcategory"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:weightSum="2">
+
+            <CheckBox
+                android:id="@+id/arts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="Arts" />
+
+            <CheckBox
+                android:id="@+id/style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="Style" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lLayout1"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:weightSum="2">
+
+            <CheckBox
+                android:id="@+id/sports"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:text="Sports" />
+
+            <CheckBox
+                android:id="@+id/travel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:text="Travel" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lLayout2"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:weightSum="2">
+
+            <CheckBox
+                android:id="@+id/science"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:text="Science" />
+
+            <CheckBox
+                android:id="@+id/politics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:text="Politics" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/lLayout3"
+            android:layout_marginTop="20dp"
+            android:text="Save"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"/>
+    </RelativeLayout>
+</layout>

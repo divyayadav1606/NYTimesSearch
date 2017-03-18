@@ -62,7 +62,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     vh1.getHeadline().setText(article.getHeadline().getMain());
                     //find largest image
                     for (int i =0; i < article.getMultimedia().size(); i++)
-                        if(article.getMultimedia().get(i).getWidth().equals("600"))
+                        if("600".equals(article.getMultimedia().get(i).getWidth()))
                             Glide.with(context)
                                 .load(article.getMultimedia().get(i).getUrl())
                                 .into(vh1.getImage());
