@@ -15,4 +15,10 @@
         android:icon="@drawable/filter"
         app:showAsAction="always"/>
 
+    <item android:id="@+id/action_scroll_to_top"
+        android:orderInCategory="3"
+        android:title="Scroll"
+        android:icon="@drawable/scroll_to_top"
+        app:showAsAction="always"/>
+
 </menu>

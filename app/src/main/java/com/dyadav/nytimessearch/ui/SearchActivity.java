@@ -211,10 +211,17 @@ public class SearchActivity extends AppCompatActivity {
                 });
 
                 fDialog.show(getSupportFragmentManager(),"");
+                break;
+
+            case R.id.action_scroll_to_top:
+                mView.smoothScrollToPosition(0);
+                break;
 
             case R.id.action_search:
             default:
-                return super.onOptionsItemSelected(item);
+                break;
+
         }
+        return super.onOptionsItemSelected(item);
     }
 }
