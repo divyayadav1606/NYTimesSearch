@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -60,8 +59,7 @@ public class FilterDialog extends DialogFragment {
         //Read bundle
         Bundle bundle = getArguments();
         if (bundle != null) {
-            Filter filter = new Filter();
-            filter = bundle.getParcelable("filter");
+            Filter filter = bundle.getParcelable("filter");
 
             //Set begin date
             Date date = null;
@@ -98,86 +96,74 @@ public class FilterDialog extends DialogFragment {
             updateLabel();
         }
 
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                beginDate.set(Calendar.YEAR, year);
-                beginDate.set(Calendar.MONTH, monthOfYear);
-                beginDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
-
+        final DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
+            beginDate.set(Calendar.YEAR, year);
+            beginDate.set(Calendar.MONTH, monthOfYear);
+            beginDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel();
         };
 
-        edittext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Hide Keyboard
-                InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        edittext.setOnClickListener(v -> {
+            //Hide Keyboard
+            InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
-                new DatePickerDialog(getContext(), date, beginDate
-                        .get(Calendar.YEAR), beginDate.get(Calendar.MONTH),
-                        beginDate.get(Calendar.DAY_OF_MONTH)).show();
-            }
+            new DatePickerDialog(getContext(), date, beginDate
+                    .get(Calendar.YEAR), beginDate.get(Calendar.MONTH),
+                    beginDate.get(Calendar.DAY_OF_MONTH)).show();
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Send data back to main activity
-                Filter filter = new Filter();
+        btnSave.setOnClickListener(view -> {
+            //Send data back to main activity
+            Filter filter = new Filter();
 
-                if(edittext.getText().toString().length() > 0){
-                    Date date = null;
-                    try {
-                        date = new SimpleDateFormat("MM/dd/yy", Locale.ENGLISH).parse(edittext.getText().toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    filter.setBegin_date(new SimpleDateFormat("yyyyMMdd").format(date));
+            if(edittext.getText().toString().length() > 0){
+                Date date1 = null;
+                try {
+                    date1 = new SimpleDateFormat("MM/dd/yy", Locale.ENGLISH).parse(edittext.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-
-                filter.setSort_order(sortOrder.getSelectedItem().toString());
-
-                List<String> news_desk = new ArrayList<>();
-
-                if(binding.arts.isChecked()){
-                    news_desk.add("Arts");
-                }
-                if(binding.style.isChecked()){
-                    news_desk.add("Style");
-                }
-                if(binding.sports.isChecked()){
-                    news_desk.add("Sports");
-                }
-                if(binding.travel.isChecked()){
-                    news_desk.add("Travel");
-                }
-                if(binding.science.isChecked()){
-                    news_desk.add("Science");
-                }
-                if(binding.politics.isChecked()){
-                    news_desk.add("Poltics");
-                }
-
-                //create news_desk string
-                String categories = null;
-                if(news_desk.size() > 0){
-                    categories = "news_desk:(";
-                    for(int i = 0;  i < news_desk.size()-1; i++){
-                        categories = categories.concat('"'+news_desk.get(i)+'"'+" ");
-                    }
-                    categories = categories.concat('"'+news_desk.get(news_desk.size()-1)+'"'+")");
-                }
-                filter.setNews_desk(categories);
-                //return searchModel;
-
-                mListener.onFinishDialog(filter);
-                dismiss();
+                filter.setBegin_date(new SimpleDateFormat("yyyyMMdd").format(date1));
             }
+
+            filter.setSort_order(sortOrder.getSelectedItem().toString());
+
+            List<String> news_desk = new ArrayList<>();
+
+            if(binding.arts.isChecked()){
+                news_desk.add("Arts");
+            }
+            if(binding.style.isChecked()){
+                news_desk.add("Style");
+            }
+            if(binding.sports.isChecked()){
+                news_desk.add("Sports");
+            }
+            if(binding.travel.isChecked()){
+                news_desk.add("Travel");
+            }
+            if(binding.science.isChecked()){
+                news_desk.add("Science");
+            }
+            if(binding.politics.isChecked()){
+                news_desk.add("Poltics");
+            }
+
+            //create news_desk string
+            String categories = null;
+            if(news_desk.size() > 0){
+                categories = "news_desk:(";
+                for(int i = 0;  i < news_desk.size()-1; i++){
+                    categories = categories.concat('"'+news_desk.get(i)+'"'+" ");
+                }
+                categories = categories.concat('"'+news_desk.get(news_desk.size()-1)+'"'+")");
+            }
+            filter.setNews_desk(categories);
+            //return searchModel;
+
+            mListener.onFinishDialog(filter);
+            dismiss();
         });
         return binding.getRoot();
     }

@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.dyadav.nytimessearch.R;
 import com.dyadav.nytimessearch.adapter.ArticlesAdapter;
@@ -93,11 +92,8 @@ public class SearchActivity extends AppCompatActivity {
 
         mView.addOnScrollListener(scrollListener);
 
-        ItemClickSupport.addTo(mView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                ChromeUtils.launchChromeTabs(articleList.get(position).getWebUrl(), SearchActivity.this);
-            }
+        ItemClickSupport.addTo(mView).setOnItemClickListener((recyclerView, position, v)-> {
+            ChromeUtils.launchChromeTabs(articleList.get(position).getWebUrl(), SearchActivity.this);
         });
 
         fetchArticles(0);
@@ -202,18 +198,15 @@ public class SearchActivity extends AppCompatActivity {
                     fDialog.setArguments(bundle);
                 }
 
-                fDialog.setFinishDialogListener(new FilterDialog.FilterTaskListener() {
-                    @Override
-                    public void onFinishDialog(Filter filter) {
-                        if (filter != null) {
-                            mSortOrder = filter.getSort_order();
-                            mNewsDesk = filter.getNews_desk();
-                            mBeginDate = filter.getBegin_date();
-                            //Refresh the article list
-                            fetchArticles(0);
-                            //Save the settings to Shared Pref
-                            writeFilterSettings();
-                        }
+                fDialog.setFinishDialogListener(filter -> {
+                    if (filter != null) {
+                        mSortOrder = filter.getSort_order();
+                        mNewsDesk = filter.getNews_desk();
+                        mBeginDate = filter.getBegin_date();
+                        //Refresh the article list
+                        fetchArticles(0);
+                        //Save the settings to Shared Pref
+                        writeFilterSettings();
                     }
                 });
 
