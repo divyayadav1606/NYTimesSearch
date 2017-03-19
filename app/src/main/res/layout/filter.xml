@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textdate"
             android:layout_centerHorizontal="true"
+            android:textColor="@android:color/black"
             android:layout_marginTop="10dp" />
 
         <TextView
