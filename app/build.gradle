@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     dataBinding.enabled = true
+
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId "com.dyadav.nytimessearch"
         minSdkVersion 16
@@ -37,6 +44,5 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.0'
     compile 'com.android.support:design:25.3.0'
     compile 'com.android.support:customtabs:25.3.0'
-    classpath 'me.tatarka:gradle-retrolambda:3.5.0'
     testCompile 'junit:junit:4.12'
 }

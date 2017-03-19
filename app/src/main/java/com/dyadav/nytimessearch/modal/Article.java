@@ -10,6 +10,10 @@ public class Article {
     @Expose
     private String webUrl;
 
+    @SerializedName("snippet")
+    @Expose
+    private String snippet;
+
     @SerializedName("headline")
     @Expose
     private Headline headline;
@@ -17,6 +21,10 @@ public class Article {
     @SerializedName("multimedia")
     @Expose
     private List<Multimedia> multimedia;
+
+    @SerializedName("pub_date")
+    @Expose
+    private String publishDate;
 
     public String getWebUrl() {
         return webUrl;
@@ -40,5 +48,21 @@ public class Article {
 
     public void setMultimedia(List<Multimedia> multimedia) {
         this.multimedia = multimedia;
+    }
+
+    public String getSnippet() {
+        return snippet;
+    }
+
+    public void setSnippet(String snippet) {
+        this.snippet = snippet;
+    }
+
+    public String getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate;
     }
 }

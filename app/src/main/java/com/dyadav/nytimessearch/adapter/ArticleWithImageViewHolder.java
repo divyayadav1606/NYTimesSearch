@@ -17,6 +17,12 @@ class ArticleWithImageViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.headline)
     TextView headline;
 
+    @BindView(R.id.snippet)
+    TextView snippet;
+
+    @BindView(R.id.date)
+    TextView date;
+
     public ArticleWithImageViewHolder(View v) {
         super(v);
         ButterKnife.bind(this, v);
@@ -36,5 +42,21 @@ class ArticleWithImageViewHolder extends RecyclerView.ViewHolder {
 
     public void setHeadline(TextView headline) {
         this.headline = headline;
+    }
+
+    public TextView getSnippet() {
+        return snippet;
+    }
+
+    public void setSnippet(TextView snippet) {
+        this.snippet = snippet;
+    }
+
+    public TextView getDate() {
+        return date;
+    }
+
+    public void setDate(TextView date) {
+        this.date = date;
     }
 }

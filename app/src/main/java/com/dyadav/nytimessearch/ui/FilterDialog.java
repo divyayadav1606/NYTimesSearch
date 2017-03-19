@@ -67,6 +67,7 @@ public class FilterDialog extends DialogFragment {
             Date date = null;
             try {
                 date = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).parse(filter.getBegin_date());
+                beginDate.setTime(date);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

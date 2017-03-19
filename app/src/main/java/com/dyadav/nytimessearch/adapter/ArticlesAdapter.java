@@ -10,6 +10,10 @@ import com.bumptech.glide.Glide;
 import com.dyadav.nytimessearch.R;
 import com.dyadav.nytimessearch.modal.Article;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -54,12 +58,23 @@ public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Article article = articleList.get(position);
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         if (article != null) {
             switch (holder.getItemViewType()) {
                 case ARTICLE_WITH_IMAGE:
                     ArticleWithImageViewHolder vh1 = (ArticleWithImageViewHolder) holder;
                     vh1.getHeadline().setText(article.getHeadline().getMain());
+                    vh1.getSnippet().setText(article.getSnippet());
+
+                    //Set Publish date
+                    try {
+                        Date parsed = sdf.parse(article.getPublishDate());
+                        vh1.getDate().setText(new SimpleDateFormat("EEE, MMM d yyyy").format(parsed));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
                     //find largest image
                     for (int i =0; i < article.getMultimedia().size(); i++)
                         if("600".equals(article.getMultimedia().get(i).getWidth()))
@@ -71,6 +86,15 @@ public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 default: {
                     ArticleNoImageViewHolder vh2 = (ArticleNoImageViewHolder) holder;
                     vh2.getHeadline().setText(article.getHeadline().getMain());
+                    vh2.getSnippet().setText(article.getSnippet());
+                    //Set Publish date
+                    sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        Date parsed = sdf.parse(article.getPublishDate());
+                        vh2.getDate().setText(new SimpleDateFormat("EEE, MMM d yyyy").format(parsed));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
