@@ -1,11 +1,13 @@
-package com.dyadav.nytimessearch.ui;
+package com.dyadav.nytimessearch.fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -13,13 +15,16 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.dyadav.nytimessearch.R;
 import com.dyadav.nytimessearch.adapter.ArticlesAdapter;
-import com.dyadav.nytimessearch.databinding.ActivitySearchBinding;
+import com.dyadav.nytimessearch.databinding.FragmentNewsBinding;
 import com.dyadav.nytimessearch.modal.Article;
 import com.dyadav.nytimessearch.modal.Filter;
 import com.dyadav.nytimessearch.modal.ResponseWrapper;
@@ -38,9 +43,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchActivity extends AppCompatActivity {
+public class NewsFragment extends Fragment {
 
-    List<Article> articleList = new ArrayList<>();
+    ArrayList<Article> articleList;
     RecyclerView mView;
     ArticlesAdapter mAdapter;
     StaggeredGridLayoutManager mLayoutManager;
@@ -49,27 +54,51 @@ public class SearchActivity extends AppCompatActivity {
     String mBeginDate;
     String mSortOrder;
     String mNewsDesk;
-    ActivitySearchBinding binding;
+    FragmentNewsBinding binding;
     SharedPreferences mSettings;
+    int mPage;
 
-    private final static String API_KEY = "d305d9a469b6430b8d80b7d577c7a183";
+    private final static String API_KEY = com.dyadav.nytimessearch.BuildConfig.apikey;
     private final static String TAG = "NYTimesSearch";
 
+    public NewsFragment() {}
+
+    public static NewsFragment newInstance() {
+        return new NewsFragment();
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
+                                                R.layout.fragment_news,
+                                                container, false);
+
+        if (savedInstanceState != null) {
+            articleList = savedInstanceState.getParcelableArrayList("articles");
+            Log.d("NY", "Old");
+        } else {
+            articleList = new ArrayList<>();
+            Log.d("NY", "New");
+        }
 
         Toolbar toolbar = binding.toolbar;
         toolbar.setTitle(R.string.toolbar_title);
-        setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //Read Filter settings from SharedPreferences
         mQuery = null;
         readFilterSettings();
 
         mView = binding.rView;
-        mAdapter = new ArticlesAdapter(this, articleList);
+        mAdapter = new ArticlesAdapter(getContext(), articleList);
         mView.setAdapter(mAdapter);
 
         switch(getResources().getConfiguration().orientation) {
@@ -86,21 +115,36 @@ public class SearchActivity extends AppCompatActivity {
         scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                fetchArticles(page);
+                Handler handler = new Handler();
+                mPage = page;
+                Runnable runnableCode = () -> fetchArticles(page);
+                handler.postDelayed(runnableCode, 2000);
             }
         };
 
         mView.addOnScrollListener(scrollListener);
 
-        ItemClickSupport.addTo(mView).setOnItemClickListener((recyclerView, position, v)-> {
-            ChromeUtils.launchChromeTabs(articleList.get(position).getWebUrl(), SearchActivity.this);
-        });
+        ItemClickSupport.addTo(mView).setOnItemClickListener((recyclerView, position, v)->
+                ChromeUtils.launchChromeTabs(articleList.get(position).getWebUrl(), getContext()));
 
-        fetchArticles(0);
+        if (articleList.size() == 0)
+            fetchArticles(0);
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
     private void readFilterSettings() {
-        mSettings = getSharedPreferences("FilterSettings", Context.MODE_PRIVATE);
+        mSettings = getActivity().getSharedPreferences("FilterSettings", Context.MODE_PRIVATE);
         mBeginDate = mSettings.getString("beginDate", null);
         mSortOrder = mSettings.getString("sortOrder", null);
         mNewsDesk =  mSettings.getString("newsDesk", null);
@@ -125,11 +169,13 @@ public class SearchActivity extends AppCompatActivity {
 
         nyTimesAPI apiCall = apiClient.getClient().create(nyTimesAPI.class);
         call = apiCall.loadArticles(API_KEY, mQuery, String.valueOf(pNum), mSortOrder, mBeginDate, mNewsDesk);
+        binding.progressBar.setVisibility(View.VISIBLE);
         Log.d(TAG, call.request().url().toString());
 
         call.enqueue(new Callback<ResponseWrapper>() {
             @Override
             public void onResponse(Call<ResponseWrapper> call, Response<ResponseWrapper> response) {
+                binding.progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     List<Article> rlist = response.body().getResponse().getArticles();
                     if(pNum == 0){
@@ -138,26 +184,28 @@ public class SearchActivity extends AppCompatActivity {
                     articleList.addAll(rlist);
                     mAdapter.notifyDataSetChanged();
                 } else {
-                    Snackbar.make(binding.cLayout, R.string.response_unsuccessful, Snackbar.LENGTH_LONG).show();
+                    //Snackbar.make(binding.cLayout, R.string.response_unsuccessful, Snackbar.LENGTH_LONG).show();
                     try {
                         Log.d(TAG, response.errorBody().string());
+                        if (response.code() == 429)
+                            fetchArticles(mPage);
                     } catch (IOException e) {
                         e.printStackTrace();
+                        Snackbar.make(binding.cLayout, R.string.response_unsuccessful, Snackbar.LENGTH_LONG).show();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseWrapper> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
                 Snackbar.make(binding.cLayout, R.string.error_fetching_articles, Snackbar.LENGTH_LONG).show();
             }
         });
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
@@ -178,7 +226,6 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -210,7 +257,7 @@ public class SearchActivity extends AppCompatActivity {
                     }
                 });
 
-                fDialog.show(getSupportFragmentManager(),"");
+                fDialog.show(getActivity().getSupportFragmentManager(),"");
                 break;
 
             case R.id.action_scroll_to_top:
@@ -223,5 +270,13 @@ public class SearchActivity extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        // Make sure to call the super method so that the states of our views are saved
+        super.onSaveInstanceState(state);
+        state.putParcelableArrayList("articles", articleList);
+        Log.d("NY", "Save success");
     }
 }

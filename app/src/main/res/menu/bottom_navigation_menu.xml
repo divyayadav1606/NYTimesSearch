@@ -2,16 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/action_news"
         android:enabled="true"
         android:icon="@drawable/news"
         android:title="News"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_music"
-        android:enabled="true"
+        android:id="@+id/action_bookmark"
+        android:enabled="false"
         android:icon="@drawable/bookmark"
         android:title="Bookmark"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_trending"
+        android:enabled="false"
+        android:icon="@drawable/trending"
+        android:title="Trending"
         app:showAsAction="ifRoom" />
 </menu>
