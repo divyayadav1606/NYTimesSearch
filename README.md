@@ -21,7 +21,7 @@ The following **required** functionality is completed:
 The following **optional** features are implemented:
 
 * [x] Implements robust error handling, [check if internet is available](http://guides.codepath.com/android/Sending-and-Managing-Network-Requests#checking-for-network-connectivity), handle error cases, network failures
-      * [x] Put delay in network requests to avoid 429 error and resend request
+    * [x] Put delay in network requests to avoid 429 error and resend request
 * [x] Used the **ActionBar SearchView** or custom layout as the query box instead of an EditText
 * [x] User can **share an article link** to their friends or email it to themselves
 * [x] Replaced Filter Settings Activity with a lightweight modal overlay
@@ -59,13 +59,19 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<a href="https://www.dropbox.com/s/7nf3s3n184lw6re/NYTimesSearch.mp4?dl=0">Video uploaded to Dropbox here...</a>
+
+
+## Main Screen Screenshots
+<img src='https://github.com/divyayadav1606/NYTimesSearch/blob/master/NYTimesSearch_Lanscape.png' title='Landscape' width='' alt='Landscape' />
+
+<img src='https://github.com/divyayadav1606/NYTimesSearch/blob/master/NYTimesSearch_Potrait.png' title='Potrait' width='60%' alt='Potrait' />
 
 ## Notes
 
 1. Never make last minute big feature additions :)
- - RecyclerView with Cursor adapter,
- - Fragment onCreateView method was called twice. It drove me crazy
+2. RecyclerView with Cursor adapter,
+3. Fragment onCreateView method was called twice. It drove me crazy
 
 ## Open-source libraries used
 
