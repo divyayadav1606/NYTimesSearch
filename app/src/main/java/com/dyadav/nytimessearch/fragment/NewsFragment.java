@@ -251,6 +251,7 @@ public class NewsFragment extends Fragment {
                         mNewsDesk = filter.getNews_desk();
                         mBeginDate = filter.getBegin_date();
                         //Refresh the article list
+                        mQuery = null;
                         fetchArticles(0);
                         //Save the settings to Shared Pref
                         writeFilterSettings();

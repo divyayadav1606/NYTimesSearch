@@ -18,6 +18,7 @@ public class ChromeUtils {
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.share);
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "NYTimesSerach App Share");
         intent.putExtra(Intent.EXTRA_TEXT, url);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context,
