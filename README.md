@@ -46,7 +46,7 @@ The following **additional** features are implemented:
     * [x] Show article snippet with Publish Date
     * [x] BottomNavigation Bar used with Fragments to display News/Bookmarks/Trending
     * [x] Scroll to top at the click of a button
-    * [x] Use different layouts for Landscape & Potrait mode. 2 colums in potrain and 3 colums in ladscape
+    * [x] Use different layouts for Landscape & Potrait mode. 2 colums in potrait and 3 colums in ladscape
     * [x] Use SnackBar for reporting error messages
     * [x] Progress bar
 * [x] Save filter settings in Shared preference to load news when user reopens the app
@@ -63,9 +63,15 @@ Here's a walkthrough of implemented user stories:
 
 
 ## Main Screen Screenshots
+**Landscape**
+
 <img src='https://github.com/divyayadav1606/NYTimesSearch/blob/master/NYTimesSearch_Lanscape.png' title='Landscape' width='' alt='Landscape' />
 
+**Potrait
 <img src='https://github.com/divyayadav1606/NYTimesSearch/blob/master/NYTimesSearch_Potrait.png' title='Potrait' width='60%' alt='Potrait' />
+
+**Connection Error** 
+<img src='https://github.com/divyayadav1606/NYTimesSearch/blob/master/NYSearch_Connection_Error.png' title='Potrait' width='60%' alt='Potrait' />
 
 ## Notes
 
