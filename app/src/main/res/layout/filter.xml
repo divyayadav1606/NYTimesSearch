@@ -1,7 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="abc" type="com.dyadav.nytimessearch.ui.FilterDialog" />
+        <variable name="abc" type="com.dyadav.nytimessearch.fragment.FilterDialog" />
     </data>
 
     <RelativeLayout

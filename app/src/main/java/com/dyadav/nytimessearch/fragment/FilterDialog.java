@@ -1,4 +1,4 @@
-package com.dyadav.nytimessearch.ui;
+package com.dyadav.nytimessearch.fragment;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -35,7 +35,7 @@ public class FilterDialog extends DialogFragment {
 
     public FilterDialog() {}
 
-    interface FilterTaskListener {
+    public interface FilterTaskListener {
         void onFinishDialog(Filter filter);
     }
 
@@ -152,7 +152,7 @@ public class FilterDialog extends DialogFragment {
 
             //create news_desk string
             String categories = null;
-            if(news_desk.size() > 0){
+            if(!news_desk.isEmpty()){
                 categories = "news_desk:(";
                 for(int i = 0;  i < news_desk.size()-1; i++){
                     categories = categories.concat('"'+news_desk.get(i)+'"'+" ");
