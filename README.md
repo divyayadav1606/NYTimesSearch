@@ -67,10 +67,12 @@ Here's a walkthrough of implemented user stories:
 
 <img src='https://github.com/divyayadav1606/NYTimesSearch/blob/master/NYTimesSearch_Lanscape.png' title='Landscape' width='' alt='Landscape' />
 
-**Potrait
+**Potrait**
+
 <img src='https://github.com/divyayadav1606/NYTimesSearch/blob/master/NYTimesSearch_Potrait.png' title='Potrait' width='60%' alt='Potrait' />
 
 **Connection Error** 
+
 <img src='https://github.com/divyayadav1606/NYTimesSearch/blob/master/NYSearch_Connection_Error.png' title='Potrait' width='60%' alt='Potrait' />
 
 ## Notes
