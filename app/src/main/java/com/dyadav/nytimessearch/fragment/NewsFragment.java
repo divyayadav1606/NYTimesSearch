@@ -164,6 +164,7 @@ public class NewsFragment extends Fragment {
                     List<Article> rlist = response.body().getResponse().getArticles();
                     if(pNum == 0){
                         articleList.clear();
+                        scrollListener.resetState();
                     }
                     articleList.addAll(rlist);
                     if(pNum == 0)
