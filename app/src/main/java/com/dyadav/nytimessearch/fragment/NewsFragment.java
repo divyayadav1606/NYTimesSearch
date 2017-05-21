@@ -33,6 +33,7 @@ import com.dyadav.nytimessearch.rest.nyTimesAPI;
 import com.dyadav.nytimessearch.utility.ChromeUtils;
 import com.dyadav.nytimessearch.utility.EndlessRecyclerViewScrollListener;
 import com.dyadav.nytimessearch.utility.ItemClickSupport;
+import com.dyadav.nytimessearch.utility.NetworkUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -108,8 +109,9 @@ public class NewsFragment extends Fragment {
         scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Handler handler = new Handler();
                 mPage = page;
+
+                Handler handler = new Handler();
                 Runnable runnableCode = () -> fetchArticles(page);
                 handler.postDelayed(runnableCode, 500);
             }
@@ -142,6 +144,10 @@ public class NewsFragment extends Fragment {
     }
 
     private void fetchArticles(final int pNum) {
+        if(!NetworkUtils.isOnline()) {
+            Snackbar.make(binding.cLayout, R.string.connect_error, Snackbar.LENGTH_LONG).show();
+            return;
+        }
 
         Call<ResponseWrapper> call;
 
