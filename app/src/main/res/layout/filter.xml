@@ -53,102 +53,77 @@
             android:layout_below="@+id/sort_order"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
             android:text="@string/news_desk_values"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"/>
 
-        <LinearLayout
-            android:id="@+id/lLayout1"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/arts"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/arts"
             android:layout_below="@+id/textcategory"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:weightSum="2">
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="40dp"/>
 
-            <CheckBox
-                android:id="@+id/arts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="5dp"
-                android:text="@string/arts" />
-
-            <CheckBox
-                android:id="@+id/style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="5dp"
-                android:text="@string/style" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lLayout2"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/style"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lLayout1"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:weightSum="2">
+            android:padding="5dp"
+            android:text="@string/style"
+            android:layout_below="@+id/textcategory"
+            android:layout_toRightOf="@+id/arts"
+            android:layout_marginLeft="60dp" />
 
-            <CheckBox
-                android:id="@+id/sports"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_weight="1"
-                android:text="@string/sports" />
-
-            <CheckBox
-                android:id="@+id/travel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_weight="1"
-                android:text="@string/travel" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lLayout3"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/sports"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lLayout2"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:weightSum="2">
+            android:padding="5dp"
+            android:text="@string/sports"
+            android:layout_below="@+id/arts"
+            android:layout_alignLeft="@+id/arts"
+            android:layout_alignStart="@+id/arts"/>
 
-            <CheckBox
-                android:id="@+id/science"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_weight="1"
-                android:text="@string/science" />
+        <CheckBox
+            android:id="@+id/travel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/travel"
+            android:layout_below="@+id/style"
+            android:layout_alignLeft="@+id/style"
+            android:layout_alignStart="@+id/style"/>
 
-            <CheckBox
-                android:id="@+id/politics"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_weight="1"
-                android:text="@string/politics" />
+        <CheckBox
+            android:id="@+id/science"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/science"
+            android:layout_below="@+id/sports"
+            android:layout_alignLeft="@+id/arts"
+            android:layout_alignStart="@+id/arts"/>
 
-        </LinearLayout>
+        <CheckBox
+            android:id="@+id/politics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/politics"
+            android:layout_below="@+id/travel"
+            android:layout_alignLeft="@+id/style"
+            android:layout_alignStart="@+id/style"/>
 
         <Button
             android:id="@+id/save"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@+id/lLayout3"
+            android:layout_below="@+id/science"
             android:layout_marginTop="20dp"
             android:text="@string/save"
             android:background="@color/colorPrimary"
