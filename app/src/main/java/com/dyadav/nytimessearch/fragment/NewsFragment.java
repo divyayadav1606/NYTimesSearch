@@ -83,10 +83,8 @@ public class NewsFragment extends Fragment {
 
         if (savedInstanceState != null) {
             articleList = savedInstanceState.getParcelableArrayList("articles");
-            Log.d("NY", "Old");
         } else {
             articleList = new ArrayList<>();
-            Log.d("NY", "New");
         }
 
         Toolbar toolbar = binding.toolbar;
@@ -97,9 +95,8 @@ public class NewsFragment extends Fragment {
         mQuery = null;
         readFilterSettings();
 
-        mView = binding.rView;
         mAdapter = new ArticlesAdapter(getContext(), articleList);
-        mView.setAdapter(mAdapter);
+        binding.rView.setAdapter(mAdapter);
 
         switch(getResources().getConfiguration().orientation) {
             case Configuration.ORIENTATION_PORTRAIT:
@@ -278,6 +275,5 @@ public class NewsFragment extends Fragment {
         // Make sure to call the super method so that the states of our views are saved
         super.onSaveInstanceState(state);
         state.putParcelableArrayList("articles", articleList);
-        Log.d("NY", "Save success");
     }
 }
