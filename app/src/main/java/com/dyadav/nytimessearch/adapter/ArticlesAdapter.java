@@ -15,12 +15,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Article> articleList;
     private Context context;
     private final int ARTICLE_WITH_IMAGE = 0, ARTICLE_NO_IMAGE = 1;
+    private final int IMAGE_600 = 1;
 
     public ArticlesAdapter(Context context, List<Article> articleList) {
         this.articleList = articleList;
@@ -58,7 +60,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Article article = articleList.get(position);
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
         if (article != null) {
             switch (holder.getItemViewType()) {
@@ -66,32 +68,29 @@ public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     ArticleWithImageViewHolder vh1 = (ArticleWithImageViewHolder) holder;
                     vh1.getHeadline().setText(article.getHeadline().getMain());
                     vh1.getSnippet().setText(article.getSnippet());
+                    vh1.getImage().setImageResource(0);
 
-                    //Set Publish date
                     try {
                         Date parsed = sdf.parse(article.getPublishDate());
-                        vh1.getDate().setText(new SimpleDateFormat("EEE, MMM d yyyy").format(parsed));
+                        vh1.getDate().setText(new SimpleDateFormat("EEE, MMM d yyyy", Locale.US).format(parsed));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
 
-                    //find largest image
-                    for (int i =0; i < article.getMultimedia().size(); i++)
-                        if("600".equals(article.getMultimedia().get(i).getWidth()))
-                            Glide.with(context)
-                                .load(article.getMultimedia().get(i).getUrl())
+                    if(article.getMultimedia().size() > 2) {
+                        Glide.with(context)
+                                .load(article.getMultimedia().get(IMAGE_600).getUrl())
                                 .into(vh1.getImage());
+                    }
                     break;
                 case ARTICLE_NO_IMAGE:
                 default: {
                     ArticleNoImageViewHolder vh2 = (ArticleNoImageViewHolder) holder;
                     vh2.getHeadline().setText(article.getHeadline().getMain());
                     vh2.getSnippet().setText(article.getSnippet());
-                    //Set Publish date
-                    sdf = new SimpleDateFormat("yyyy-MM-dd");
                     try {
                         Date parsed = sdf.parse(article.getPublishDate());
-                        vh2.getDate().setText(new SimpleDateFormat("EEE, MMM d yyyy").format(parsed));
+                        vh2.getDate().setText(new SimpleDateFormat("EEE, MMM d yyyy", Locale.US).format(parsed));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

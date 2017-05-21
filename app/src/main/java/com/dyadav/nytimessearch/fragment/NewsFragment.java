@@ -33,7 +33,6 @@ import com.dyadav.nytimessearch.rest.nyTimesAPI;
 import com.dyadav.nytimessearch.utility.ChromeUtils;
 import com.dyadav.nytimessearch.utility.EndlessRecyclerViewScrollListener;
 import com.dyadav.nytimessearch.utility.ItemClickSupport;
-import com.dyadav.nytimessearch.utility.NetworkUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,7 +89,6 @@ public class NewsFragment extends Fragment {
         toolbar.setTitle(R.string.toolbar_title);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-        //Read Filter settings from SharedPreferences
         readFilterSettings();
 
         mAdapter = new ArticlesAdapter(getContext(), articleList);
@@ -144,11 +142,6 @@ public class NewsFragment extends Fragment {
     }
 
     private void fetchArticles(final int pNum) {
-        //Network check
-        if(!NetworkUtils.isOnline()) {
-            Snackbar.make(binding.cLayout, R.string.connect_error, Snackbar.LENGTH_LONG).show();
-            return;
-        }
 
         Call<ResponseWrapper> call;
 
@@ -170,7 +163,6 @@ public class NewsFragment extends Fragment {
                     if(pNum == 0)
                         mAdapter.notifyDataSetChanged();
                 } else {
-                    //Snackbar.make(binding.cLayout, R.string.response_unsuccessful, Snackbar.LENGTH_LONG).show();
                     try {
                         Log.d(TAG, response.errorBody().string());
                         if (response.code() == 429)
@@ -200,7 +192,6 @@ public class NewsFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchView.clearFocus();
-                articleList.clear();
                 scrollListener.resetState();
                 mQuery = query;
                 fetchArticles(0);
@@ -236,10 +227,8 @@ public class NewsFragment extends Fragment {
                         mSortOrder = filter.getSort_order();
                         mNewsDesk = filter.getNews_desk();
                         mBeginDate = filter.getBegin_date();
-                        //Refresh the article list
                         mQuery = null;
                         fetchArticles(0);
-                        //Save the settings to Shared Pref
                         writeFilterSettings();
                     }
                 });
