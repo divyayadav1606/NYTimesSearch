@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawable(null);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.holder_layout, NewsFragment.newInstance());
+        transaction.replace(R.id.holder_layout, NewsFragment.newInstance());
         transaction.commit();
     }
 }
