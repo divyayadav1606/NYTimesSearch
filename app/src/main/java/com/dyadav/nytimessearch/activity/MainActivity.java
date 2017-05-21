@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getWindow().setBackgroundDrawable(null);
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
 
@@ -40,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                         }
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frame_layout, selectedFragment);
+                        transaction.replace(R.id.holder_layout, selectedFragment);
                         transaction.commit();
                         return true;
                     }
                 });
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, NewsFragment.newInstance());
+        transaction.replace(R.id.holder_layout, NewsFragment.newInstance());
         transaction.commit();
     }
 

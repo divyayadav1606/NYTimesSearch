@@ -1,13 +1,14 @@
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="3dp"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp" >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -17,8 +18,6 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
                 android:scaleType="fitXY" />
 
             <TextView
