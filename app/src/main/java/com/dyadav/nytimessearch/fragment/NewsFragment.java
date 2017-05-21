@@ -55,7 +55,7 @@ public class NewsFragment extends Fragment {
     String mNewsDesk;
     FragmentNewsBinding binding;
     SharedPreferences mSettings;
-    int mPage;
+    int mPage = 0;
 
     private final static String API_KEY = com.dyadav.nytimessearch.BuildConfig.apikey;
     private final static String TAG = "NYTimesSearch";
@@ -128,16 +128,6 @@ public class NewsFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
     private void readFilterSettings() {
         mSettings = getActivity().getSharedPreferences("FilterSettings", Context.MODE_PRIVATE);
         mBeginDate = mSettings.getString("beginDate", null);
@@ -177,7 +167,8 @@ public class NewsFragment extends Fragment {
                         articleList.clear();
                     }
                     articleList.addAll(rlist);
-                    mAdapter.notifyDataSetChanged();
+                    if(pNum == 0)
+                        mAdapter.notifyDataSetChanged();
                 } else {
                     //Snackbar.make(binding.cLayout, R.string.response_unsuccessful, Snackbar.LENGTH_LONG).show();
                     try {
