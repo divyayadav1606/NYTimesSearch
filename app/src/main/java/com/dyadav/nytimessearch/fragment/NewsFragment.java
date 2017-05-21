@@ -46,11 +46,10 @@ import retrofit2.Response;
 public class NewsFragment extends Fragment {
 
     ArrayList<Article> articleList;
-    RecyclerView mView;
     ArticlesAdapter mAdapter;
     StaggeredGridLayoutManager mLayoutManager;
     EndlessRecyclerViewScrollListener scrollListener;
-    String mQuery;
+    String mQuery = null;
     String mBeginDate;
     String mSortOrder;
     String mNewsDesk;
@@ -92,7 +91,6 @@ public class NewsFragment extends Fragment {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //Read Filter settings from SharedPreferences
-        mQuery = null;
         readFilterSettings();
 
         mAdapter = new ArticlesAdapter(getContext(), articleList);
@@ -107,7 +105,7 @@ public class NewsFragment extends Fragment {
                 break;
         }
 
-        mView.setLayoutManager(mLayoutManager);
+        binding.rView.setLayoutManager(mLayoutManager);
 
         scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
@@ -115,13 +113,13 @@ public class NewsFragment extends Fragment {
                 Handler handler = new Handler();
                 mPage = page;
                 Runnable runnableCode = () -> fetchArticles(page);
-                handler.postDelayed(runnableCode, 2000);
+                handler.postDelayed(runnableCode, 500);
             }
         };
 
-        mView.addOnScrollListener(scrollListener);
+        binding.rView.addOnScrollListener(scrollListener);
 
-        ItemClickSupport.addTo(mView).setOnItemClickListener((recyclerView, position, v)->
+        ItemClickSupport.addTo(binding.rView).setOnItemClickListener((recyclerView, position, v)->
                 ChromeUtils.launchChromeTabs(articleList.get(position).getWebUrl(), getContext()));
 
         if (articleList.size() == 0)
@@ -259,7 +257,7 @@ public class NewsFragment extends Fragment {
                 break;
 
             case R.id.action_scroll_to_top:
-                mView.smoothScrollToPosition(0);
+                binding.rView.smoothScrollToPosition(0);
                 break;
 
             case R.id.action_search:
@@ -272,7 +270,6 @@ public class NewsFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle state) {
-        // Make sure to call the super method so that the states of our views are saved
         super.onSaveInstanceState(state);
         state.putParcelableArrayList("articles", articleList);
     }
