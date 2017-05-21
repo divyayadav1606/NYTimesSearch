@@ -5,6 +5,16 @@
     <string name="response_unsuccessful">Response Unsuccessful</string>
     <string name="error_fetching_articles">Error fetching article list</string>
     <string name="connect_error">Please check your internet connection.</string>
+    <string name="begin_date">Begin Date</string>
+    <string name="sort_order">Sort Order</string>
+    <string name="news_desk_values">News Desk Values</string>
+    <string name="arts">Arts</string>
+    <string name="style">Style</string>
+    <string name="sports">Sports</string>
+    <string name="travel">Travel</string>
+    <string name="science">Science</string>
+    <string name="politics">Politics</string>
+    <string name="save">Save</string>
 
     <string-array name="sort_order">
         <item>Oldest</item>

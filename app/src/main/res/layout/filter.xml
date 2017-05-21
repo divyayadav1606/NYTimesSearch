@@ -1,9 +1,5 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-        <variable name="abc" type="com.dyadav.nytimessearch.fragment.FilterDialog" />
-    </data>
-
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -11,14 +7,14 @@
         android:layout_gravity="center">
 
         <TextView
+            android:id="@+id/textdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:text="Begin Date"
+            android:text="@string/begin_date"
             android:textColor="@color/colorPrimary"
-            android:id="@+id/textdate"
             android:textSize="18sp"/>
 
         <EditText
@@ -31,13 +27,13 @@
             android:layout_marginTop="10dp" />
 
         <TextView
+            android:id="@+id/textorder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:text="Sort Order"
+            android:text="@string/sort_order"
             android:textColor="@color/colorPrimary"
-            android:id="@+id/textorder"
             android:layout_below="@+id/start_date"
             android:textSize="18sp"/>
 
@@ -51,14 +47,14 @@
             android:entries="@array/sort_order" />
 
         <TextView
+            android:id="@+id/textcategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/sort_order"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:text="News Desk Values"
+            android:text="@string/news_desk_values"
             android:textColor="@color/colorPrimary"
-            android:id="@+id/textcategory"
             android:textSize="18sp"/>
 
         <LinearLayout
@@ -79,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="5dp"
-                android:text="Arts" />
+                android:text="@string/arts" />
 
             <CheckBox
                 android:id="@+id/style"
@@ -87,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="5dp"
-                android:text="Style" />
+                android:text="@string/style" />
         </LinearLayout>
 
         <LinearLayout
@@ -107,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:layout_weight="1"
-                android:text="Sports" />
+                android:text="@string/sports" />
 
             <CheckBox
                 android:id="@+id/travel"
@@ -115,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:layout_weight="1"
-                android:text="Travel" />
+                android:text="@string/travel" />
 
         </LinearLayout>
 
@@ -136,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:layout_weight="1"
-                android:text="Science" />
+                android:text="@string/science" />
 
             <CheckBox
                 android:id="@+id/politics"
@@ -144,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:layout_weight="1"
-                android:text="Politics" />
+                android:text="@string/politics" />
 
         </LinearLayout>
 
@@ -154,7 +150,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/lLayout3"
             android:layout_marginTop="20dp"
-            android:text="Save"
+            android:text="@string/save"
             android:background="@color/colorPrimary"
             android:textColor="@android:color/white"/>
     </RelativeLayout>
