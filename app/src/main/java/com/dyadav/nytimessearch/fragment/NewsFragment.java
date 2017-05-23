@@ -167,8 +167,7 @@ public class NewsFragment extends Fragment {
                         scrollListener.resetState();
                     }
                     articleList.addAll(rlist);
-                    if(pNum == 0)
-                        mAdapter.notifyDataSetChanged();
+                    mAdapter.notifyItemRangeInserted(mAdapter.getItemCount(), articleList.size() - 1);
                 } else {
                     try {
                         Log.d(TAG, response.errorBody().string());
